@@ -1,6 +1,8 @@
 package com.wdr.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="instructor")
@@ -13,8 +15,24 @@ public class Instructor {
     private String firstName;
     private String lastName;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "instructor_detail_id")
+    private InstructorDetail instructorDetail;
+
+    // the instructor refers to the property of instructor in the Course object
+    @OneToMany(mappedBy = "instructor",cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    private List<Course> courses;
+
     public int getId() {
         return id;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     public void setId(int id) {
@@ -55,10 +73,6 @@ public class Instructor {
 
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "instructor_detail_id")
-    private InstructorDetail instructorDetail;
-
     public Instructor(String firstName,String lastName,String email){
         this.firstName = firstName;
         this.lastName = lastName;
@@ -66,6 +80,15 @@ public class Instructor {
     }
 
     public Instructor(){}
+
+    //assign a course to the instructor
+    public void add(Course course){
+        if(courses == null){
+            courses = new ArrayList<>();
+        }
+        courses.add(course);
+        course.setInstructor(this);//set the current object
+    }
 
     @Override
     public String toString() {
