@@ -20,7 +20,7 @@ public class Instructor {
     private InstructorDetail instructorDetail;
 
     // the instructor refers to the property of instructor in the Course object
-    @OneToMany(mappedBy = "instructor",cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "instructor" , cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     private List<Course> courses;
 
     public int getId() {

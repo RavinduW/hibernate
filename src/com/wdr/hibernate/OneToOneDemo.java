@@ -1,7 +1,6 @@
 package com.wdr.hibernate;
 
-import com.wdr.entities.Instructor;
-import com.wdr.entities.InstructorDetail;
+import com.wdr.entities.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -10,6 +9,9 @@ public class OneToOneDemo {
     public static void main(String[] args) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
                                     .addAnnotatedClass(InstructorDetail.class)
+                                    .addAnnotatedClass(Course.class)
+                                    .addAnnotatedClass(Review.class)
+                                    .addAnnotatedClass(User.class)
                                     .addAnnotatedClass(Instructor.class).buildSessionFactory();
 
         Session session = factory.getCurrentSession();

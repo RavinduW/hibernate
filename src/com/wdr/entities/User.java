@@ -1,6 +1,7 @@
 package com.wdr.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="user")
@@ -19,6 +20,10 @@ public class User {
 
     @Column(name="email")
     private String email;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinTable(name="course_student",joinColumns = @JoinColumn(name="student_id"),inverseJoinColumns = @JoinColumn(name="course_id"))
+    private List<Course> courses;
 
     public User(){}
 
@@ -58,6 +63,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     @Override
